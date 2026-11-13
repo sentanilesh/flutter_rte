@@ -100,30 +100,32 @@ extension ToolbarColorButtons on ToolbarWidgetState {
                     child: AlertDialog(
                       scrollable: true,
                       insetPadding: const EdgeInsets.all(8),
-                      content: ColorPicker(
-                        color: newColor,
-                        onColorChanged: (color) {
-                          newColor = color;
-                        },
-                        title: Text('Pick a color:',
-                            style: Theme.of(context).textTheme.titleSmall),
-                        width: 40,
-                        height: 40,
-                        spacing: 0,
-                        runSpacing: 0,
-                        borderRadius: 0,
-                        wheelDiameter: 165,
-                        enableOpacity: false,
-                        showColorCode: true,
-                        colorCodeHasColor: true,
-                        pickersEnabled: const <ColorPickerType, bool>{
-                          ColorPickerType.accent: false,
-                        },
-                        copyPasteBehavior: const ColorPickerCopyPasteBehavior(
-                          parseShortHexCode: true,
-                        ),
-                        actionButtons: const ColorPickerActionButtons(
-                          dialogActionButtons: true,
+                      content: Material(
+                        child: ColorPicker(
+                          color: newColor,
+                          onColorChanged: (color) {
+                            newColor = color;
+                          },
+                          title: Text('Pick a color:',
+                              style: Theme.of(context).textTheme.titleSmall),
+                          width: 40,
+                          height: 40,
+                          spacing: 0,
+                          runSpacing: 0,
+                          borderRadius: 0,
+                          wheelDiameter: 165,
+                          enableOpacity: false,
+                          showColorCode: true,
+                          colorCodeHasColor: true,
+                          pickersEnabled: const <ColorPickerType, bool>{
+                            ColorPickerType.accent: false,
+                          },
+                          copyPasteBehavior: const ColorPickerCopyPasteBehavior(
+                            parseShortHexCode: true,
+                          ),
+                          actionButtons: const ColorPickerActionButtons(
+                            dialogActionButtons: true,
+                          ),
                         ),
                       ),
                       actionsAlignment: kIsWeb
