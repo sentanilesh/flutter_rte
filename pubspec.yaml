@@ -28,18 +28,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flex_color_picker: 
+  flex_color_picker: ^4.0.0
   numberpicker: 
   pointer_interceptor:  # in Flutter 3.0 and below
                         # use 0.9.0+1 due to bugs in framework
-  speech_to_text: ^7.0.0
-  webview_flutter: ^4.10.0
+  speech_to_text: ^7.5.0
+  webview_flutter: ^4.14.1
   meta:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
