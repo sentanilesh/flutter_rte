@@ -419,14 +419,15 @@ class _ScrollPatchState extends State<_ScrollPatch> {
   @override
   Widget build(BuildContext context) {
     Size? patchSize;
-    // when work fullscreen - don't block anything
-    if (widget.controller.editorOptions.expandFullHeight) {
+    // when work fullscreen or read-only/disabled - don't block anything
+    // so content remains scrollable
+    if (widget.controller.editorOptions.expandFullHeight ||
+        widget.controller.isReadOnly ||
+        widget.controller.isDisabled) {
       return const SizedBox();
     }
-    //if disabled or read-only - intercept all events
-    if (widget.controller.isReadOnly ||
-        widget.controller.isDisabled ||
-        (kIsWeb && !widget.controller.hasFocus)) {
+    // if not focused on web - intercept events to gain focus on tap
+    if (kIsWeb && !widget.controller.hasFocus) {
       if (!kIsWeb) {
         return const Positioned.fill(
             child: AbsorbPointer(child: SizedBox.expand()));

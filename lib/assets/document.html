@@ -11,6 +11,10 @@
     margin:0;
     padding:0;
   }
+  html, body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   body {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -140,6 +144,7 @@ https://github.com/neilj/Squire
           case 'disable':
             richTextBox.contentEditable = false;
             richTextBox.spellcheck = false;
+            document.body.style.cursor = 'default';
             richTextBox.focus();
             richTextBox.blur();
             break;
@@ -147,6 +152,7 @@ https://github.com/neilj/Squire
           case 'enable':
             richTextBox.contentEditable = true;
             richTextBox.spellcheck = true;
+            document.body.style.cursor = 'text';
             richTextBox.focus();
             break;
 

@@ -489,7 +489,8 @@ const isNativePlatform = true;
 
     var readonly =
         'richTextBox.spellcheck = ${isDisabled || isReadOnly ? 'false' : 'true'};\n'
-        'richTextBox.contentEditable = ${isDisabled || isReadOnly ? 'false' : 'true'};\n';
+        'richTextBox.contentEditable = ${isDisabled || isReadOnly ? 'false' : 'true'};\n'
+        'if (${isDisabled || isReadOnly}) { document.body.style.cursor = "default"; }\n';
     htmlString = htmlString.replaceFirst('/*---- Read Only ----*/', readonly);
 
     /// if no explicit `height` is provided - hide the scrollbar as the
