@@ -178,10 +178,9 @@ class _FullscreenState extends State<Fullscreen> with TickerProviderStateMixin {
           height: kIsWeb ? null : MediaQuery.of(context).size.height,
           decoration: _demoType == DemoType.fullscreen
               ? null
-              : BoxDecoration(
+              : const BoxDecoration(
                   image: DecorationImage(
-                      image: Image.asset('${kIsWeb ? '' : 'assets/'}bgd.png')
-                          .image,
+                      image: AssetImage('assets/bgd.png'),
                       fit: BoxFit.fill),
                 ),
           child: Stack(
