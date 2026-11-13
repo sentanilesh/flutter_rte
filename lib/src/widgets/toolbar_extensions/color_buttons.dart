@@ -96,105 +96,107 @@ extension ToolbarColorButtons on ToolbarWidgetState {
             await showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return PointerInterceptor(
-                    child: AlertDialog(
-                      scrollable: true,
-                      insetPadding: const EdgeInsets.all(8),
-                      content: Material(
-                        child: ColorPicker(
-                          color: newColor,
-                          onColorChanged: (color) {
-                            newColor = color;
-                          },
-                          title: Text('Pick a color:',
-                              style: Theme.of(context).textTheme.titleSmall),
-                          width: 40,
-                          height: 40,
-                          spacing: 0,
-                          runSpacing: 0,
-                          borderRadius: 0,
-                          wheelDiameter: 165,
-                          enableOpacity: false,
-                          showColorCode: true,
-                          colorCodeHasColor: true,
-                          pickersEnabled: const <ColorPickerType, bool>{
-                            ColorPickerType.accent: false,
-                          },
-                          copyPasteBehavior: const ColorPickerCopyPasteBehavior(
-                            parseShortHexCode: true,
+                  return Material(
+                    child: PointerInterceptor(
+                      child: AlertDialog(
+                        scrollable: true,
+                        insetPadding: const EdgeInsets.all(8),
+                        actionsAlignment: kIsWeb
+                            ? MainAxisAlignment.end
+                            : MainAxisAlignment.spaceEvenly,
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancel'),
                           ),
-                          actionButtons: const ColorPickerActionButtons(
-                            dialogActionButtons: true,
-                          ),
-                        ),
-                      ),
-                      actionsAlignment: kIsWeb
-                          ? MainAxisAlignment.end
-                          : MainAxisAlignment.spaceEvenly,
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
+                          TextButton(
+                              onPressed: () {
+                                if (t.getIcons()[index].icon ==
+                                    Icons.format_color_text) {
+                                  setState(mounted, this.setState, () {
+                                    _foreColorSelected = Colors.black;
+                                  });
+                                  widget.controller.execCommand('removeFormat',
+                                      argument: 'textColor');
+                                  widget.controller.execCommand('textColor',
+                                      argument: 'initial');
+                                }
+                                if (t.getIcons()[index].icon ==
+                                    Icons.format_color_fill) {
+                                  setState(mounted, this.setState, () {
+                                    _backColorSelected = Colors.yellow;
+                                  });
+                                  widget.controller.execCommand('removeFormat',
+                                      argument: 'highlightColor');
+                                  widget.controller.execCommand('highlightColor',
+                                      argument: 'initial');
+                                }
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Reset to default color')),
+                          TextButton(
                             onPressed: () {
                               if (t.getIcons()[index].icon ==
                                   Icons.format_color_text) {
-                                setState(mounted, this.setState, () {
-                                  _foreColorSelected = Colors.black;
-                                });
-                                widget.controller.execCommand('removeFormat',
-                                    argument: 'textColor');
                                 widget.controller.execCommand('textColor',
-                                    argument: 'initial');
+                                    argument: (newColor.value & 0xFFFFFF)
+                                        .toRadixString(16)
+                                        .padLeft(6, '0')
+                                        .toUpperCase());
+                                setState(mounted, this.setState, () {
+                                  _foreColorSelected = newColor;
+                                });
                               }
                               if (t.getIcons()[index].icon ==
                                   Icons.format_color_fill) {
-                                setState(mounted, this.setState, () {
-                                  _backColorSelected = Colors.yellow;
-                                });
-                                widget.controller.execCommand('removeFormat',
-                                    argument: 'highlightColor');
                                 widget.controller.execCommand('highlightColor',
-                                    argument: 'initial');
+                                    argument: (newColor.value & 0xFFFFFF)
+                                        .toRadixString(16)
+                                        .padLeft(6, '0')
+                                        .toUpperCase());
+                                setState(mounted, this.setState, () {
+                                  _backColorSelected = newColor;
+                                });
                               }
+                              setState(mounted, this.setState, () {
+                                _colorSelected[index] = !_colorSelected[index];
+                              });
                               Navigator.of(context).pop();
                             },
-                            child: const Text('Reset to default color')),
-                        TextButton(
-                          onPressed: () {
-                            if (t.getIcons()[index].icon ==
-                                Icons.format_color_text) {
-                              widget.controller.execCommand('textColor',
-                                  argument: (newColor.value & 0xFFFFFF)
-                                      .toRadixString(16)
-                                      .padLeft(6, '0')
-                                      .toUpperCase());
-                              setState(mounted, this.setState, () {
-                                _foreColorSelected = newColor;
-                              });
-                            }
-                            if (t.getIcons()[index].icon ==
-                                Icons.format_color_fill) {
-                              widget.controller.execCommand('highlightColor',
-                                  argument: (newColor.value & 0xFFFFFF)
-                                      .toRadixString(16)
-                                      .padLeft(6, '0')
-                                      .toUpperCase());
-                              setState(mounted, this.setState, () {
-                                _backColorSelected = newColor;
-                              });
-                            }
-                            setState(mounted, this.setState, () {
-                              _colorSelected[index] = !_colorSelected[index];
-                            });
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Set color'),
-                        )
-                      ],
+                            child: const Text('Set color'),
+                          )
+                        ],
+                        content: Material(
+                          child: ColorPicker(
+                            color: newColor,
+                            onColorChanged: (color) {
+                              newColor = color;
+                            },
+                            title: Text('Pick a color:',
+                                style: Theme.of(context).textTheme.titleSmall),
+                            width: 40,
+                            height: 40,
+                            spacing: 0,
+                            runSpacing: 0,
+                            borderRadius: 0,
+                            wheelDiameter: 165,
+                            enableOpacity: false,
+                            showColorCode: true,
+                            colorCodeHasColor: true,
+                            pickersEnabled: const <ColorPickerType, bool>{
+                              ColorPickerType.accent: false,
+                            },
+                            copyPasteBehavior: const ColorPickerCopyPasteBehavior(
+                              parseShortHexCode: true,
+                            ),
+                            actionButtons: const ColorPickerActionButtons(
+                              dialogActionButtons: true,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 });
