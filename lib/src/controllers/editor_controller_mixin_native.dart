@@ -80,14 +80,24 @@ mixin PlatformSpecificMixin {
   Widget view(HtmlEditorController controller) {
     _c = controller;
     if (_ec == null) return const SizedBox();
+    final defaultRecognizers = controller.isInsideScrollEnabled
+        ? <Factory<OneSequenceGestureRecognizer>>{
+            Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer()),
+            Factory<LongPressGestureRecognizer>(() =>
+                LongPressGestureRecognizer(duration: const Duration(seconds: 1))),
+          }
+        : <Factory<OneSequenceGestureRecognizer>>{
+            Factory<VerticalDragGestureRecognizer>(
+                () => VerticalDragGestureRecognizer()),
+            Factory<LongPressGestureRecognizer>(() =>
+                LongPressGestureRecognizer(duration: const Duration(seconds: 1))),
+          };
+
     return WebViewWidget(
       controller: _ec!,
-      gestureRecognizers: {
-        Factory<VerticalDragGestureRecognizer>(
-            () => VerticalDragGestureRecognizer()),
-        Factory<LongPressGestureRecognizer>(() =>
-            LongPressGestureRecognizer(duration: const Duration(seconds: 1))),
-      },
+      gestureRecognizers:
+          controller.editorOptions.gestureRecognizers ?? defaultRecognizers,
     );
   }
 }

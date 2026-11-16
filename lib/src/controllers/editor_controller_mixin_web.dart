@@ -69,7 +69,7 @@ mixin PlatformSpecificMixin {
       // ignore: unsafe_html, necessary to load HTML string
       ..srcdoc = await c.getInitialContent()
       ..style.border = 'none'
-      ..style.overflow = 'hidden'
+      ..style.overflow = c.isInsideScrollEnabled ? 'auto' : 'hidden'
       ..id = viewId
       ..onLoad.listen((event) async {
         var data = <String, Object>{'type': 'toIframe: initEditor'};

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rte/flutter_rte.dart';
 
@@ -28,6 +30,8 @@ class HtmlEditorOptions {
     // this.webInitialScripts,
     this.shouldEnsureVisible = true,
     // this.spellCheck = false,
+    this.enableInsideScroll = false,
+    this.gestureRecognizers,
   }) {
     if (backgroundColor != null && backgroundDecoration != null) {
       throw Exception('HtmlEditorController configuration is invalid:\n\n'
@@ -149,6 +153,24 @@ class HtmlEditorOptions {
   /// SingleChildScrollView, etc.) for this to work. Otherwise, nothing will
   /// happen.
   final bool shouldEnsureVisible;
+
+  /// If set to true, allows the content inside the editor to be scrolled
+  /// even when the editor is not focused or is wrapped inside other scrollable widgets.
+  /// Note that inside content scrolling is automatically enabled if [height] is set
+  /// or [expandFullHeight] is true.
+  bool enableInsideScroll;
+
+  /// Which gestures should be consumed by the webview.
+  ///
+  /// It is possible for other gesture recognizers to be competing with the webview on pointer
+  /// events, e.g if the webview is inside a [ListView] the [ListView] will want to handle
+  /// vertical drags. The webview will claim gestures that are recognized by any of the
+  /// recognizers on this list.
+  ///
+  /// When this set is null or empty, if [height] is set or [enableInsideScroll] is true,
+  /// an [EagerGestureRecognizer] is used by default so that inside scrolling works smoothly
+  /// even inside a parent [Scrollable] (like [SingleChildScrollView] or [ListView]).
+  Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers;
 
   /// Specify whether or not the editor should spellcheck its contents.
   ///

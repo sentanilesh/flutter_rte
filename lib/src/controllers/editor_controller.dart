@@ -151,6 +151,14 @@ class HtmlEditorController with ChangeNotifier, PlatformSpecificMixin {
   /// it significantly improves the UX.
   bool get autoAdjustHeight => editorOptions.height == null;
 
+  /// Returns whether internal content scrolling should be enabled.
+  /// Automatically true if [editorOptions.height] is set, [editorOptions.expandFullHeight]
+  /// is true, or [editorOptions.enableInsideScroll] is explicitly set to true.
+  bool get isInsideScrollEnabled =>
+      editorOptions.enableInsideScroll ||
+      editorOptions.height != null ||
+      editorOptions.expandFullHeight;
+
   /// Determines whether text processing should happen on input HTML, e.g.
   /// whether a new line should be converted to a <br>.
   ///
@@ -497,7 +505,7 @@ const isNativePlatform = true;
     /// container height will always adjust to the document height.
     /// If the height is set - add padding for the boxed layouts.
     var hideScrollbarCss = '';
-    if (editorOptions.height == null && !editorOptions.expandFullHeight) {
+    if (!isInsideScrollEnabled) {
       hideScrollbarCss = '''
   ::-webkit-scrollbar { width: 0px; height: 0px; }
   body { color: $textColor; }

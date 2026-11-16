@@ -2,6 +2,7 @@ import 'dart:io' as io;
 import 'dart:math' as math;
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_rte/flutter_rte.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ class HtmlEditor extends StatefulWidget {
     this.onChanged,
     this.isReadOnly,
     this.enableDictation,
+    this.enableInsideScroll,
+    this.gestureRecognizers,
     this.controller,
     this.callbacks,
     //this.plugins = const [],
@@ -41,6 +44,17 @@ class HtmlEditor extends StatefulWidget {
   /// If enabled - shows microphone icon and allows to use dictation within
   /// the editor
   final bool? enableDictation;
+
+  /// If set to true, allows the content inside the editor to be scrolled
+  /// even when wrapped inside other scrollable widgets.
+  /// Automatically enabled if [height] is set or [expandFullHeight] is true.
+  final bool? enableInsideScroll;
+
+  /// Which gestures should be consumed by the webview.
+  /// When not provided and [height] is set or [enableInsideScroll] is true,
+  /// an [EagerGestureRecognizer] is used by default so that inside scrolling
+  /// works smoothly inside parent scrollable widgets.
+  final Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers;
 
   /// Desired hight. 'Auto' if null.
   final double? height;
@@ -137,6 +151,31 @@ class _HtmlEditorState extends State<HtmlEditor> with TickerProviderStateMixin {
 
     //}
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant HtmlEditor oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.height != oldWidget.height) {
+      _controller.editorOptions.height = widget.height;
+    }
+    if (widget.expandFullHeight != oldWidget.expandFullHeight) {
+      _controller.editorOptions.expandFullHeight = widget.expandFullHeight;
+    }
+    if (widget.enableInsideScroll != oldWidget.enableInsideScroll &&
+        widget.enableInsideScroll != null) {
+      _controller.editorOptions.enableInsideScroll = widget.enableInsideScroll!;
+    }
+    if (widget.gestureRecognizers != oldWidget.gestureRecognizers) {
+      _controller.editorOptions.gestureRecognizers = widget.gestureRecognizers;
+    }
+    if (widget.isReadOnly != oldWidget.isReadOnly && widget.isReadOnly != null) {
+      if (widget.isReadOnly!) {
+        _controller.disable();
+      } else {
+        _controller.enable();
+      }
+    }
   }
 
   @override
@@ -400,6 +439,14 @@ class _HtmlEditorState extends State<HtmlEditor> with TickerProviderStateMixin {
     if (widget.isReadOnly != null) {
       _controller.isReadOnly = widget.isReadOnly!;
     }
+
+    if (widget.enableInsideScroll != null) {
+      _controller.editorOptions.enableInsideScroll = widget.enableInsideScroll!;
+    }
+
+    if (widget.gestureRecognizers != null) {
+      _controller.editorOptions.gestureRecognizers = widget.gestureRecognizers;
+    }
     _controller.fault = fault;
   }
 }
@@ -419,19 +466,15 @@ class _ScrollPatchState extends State<_ScrollPatch> {
   @override
   Widget build(BuildContext context) {
     Size? patchSize;
-    // when work fullscreen or read-only/disabled - don't block anything
+    // when work fullscreen, fixed height, inside scroll enabled, or read-only/disabled - don't block anything
     // so content remains scrollable
-    if (widget.controller.editorOptions.expandFullHeight ||
+    if (widget.controller.isInsideScrollEnabled ||
         widget.controller.isReadOnly ||
         widget.controller.isDisabled) {
       return const SizedBox();
     }
     // if not focused on web - intercept events to gain focus on tap
     if (kIsWeb && !widget.controller.hasFocus) {
-      if (!kIsWeb) {
-        return const Positioned.fill(
-            child: AbsorbPointer(child: SizedBox.expand()));
-      }
       var scrollPatchKey = GlobalKey();
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         patchSize =

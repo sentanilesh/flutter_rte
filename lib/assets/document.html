@@ -12,6 +12,7 @@
     padding:0;
   }
   html, body {
+    height: 100%;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -27,9 +28,10 @@
     cursor: text;
     border: none;
   }
-  [contenteditable]:focus {
+  squire, [contenteditable] {
       outline: 0px solid transparent;
       display: block;
+      min-height: 100%;
   }
   /* next line fixes the white hyperlink background in dark mode */
   a {background-color: transparent !important;}

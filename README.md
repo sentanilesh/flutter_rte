@@ -181,6 +181,18 @@ If explicit `height` is provided - the widget will size it's height precisely to
     // that height and the content will scroll if overflows the height.
     return HtmlEditor(
       height: 250,
+      enableInsideScroll: true, // true by default when height is provided
+    );
+```
+
+When embedding inside a parent `ScrollView` (like `SingleChildScrollView` or `ListView`), inside scrolling works automatically via `EagerGestureRecognizer`. You can also supply custom `gestureRecognizers`:
+
+```Dart
+    return HtmlEditor(
+      height: 250,
+      gestureRecognizers: {
+        Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
+      },
     );
 ```
 
