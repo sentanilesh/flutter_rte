@@ -198,77 +198,80 @@ extension ToolbarFontSettingsButtons on ToolbarWidgetState {
 
   ///
   Widget _fontName(FontSettingButtons t) {
-    return Container(
-      padding: const EdgeInsets.only(left: 8.0),
-      height: widget.toolbarOptions.toolbarItemHeight,
-      decoration: !widget.toolbarOptions.renderBorder
-          ? null
-          : widget.toolbarOptions.dropdownBoxDecoration ??
-              BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  border: Border.all(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.12))),
-      child: CustomDropdownButtonHideUnderline(
-        child: CustomDropdownButton<String>(
-          elevation: widget.toolbarOptions.dropdownElevation,
-          icon: widget.toolbarOptions.dropdownIcon,
-          iconEnabledColor: widget.toolbarOptions.dropdownIconColor,
-          iconSize: widget.toolbarOptions.dropdownIconSize,
-          itemHeight: widget.toolbarOptions.dropdownItemHeight,
-          focusColor: widget.toolbarOptions.dropdownFocusColor,
-          dropdownColor: widget.toolbarOptions.dropdownBackgroundColor,
-          menuDirection: widget.toolbarOptions.dropdownMenuDirection ??
-              (widget.toolbarOptions.toolbarPosition ==
-                      ToolbarPosition.belowEditor
-                  ? DropdownMenuDirection.up
-                  : DropdownMenuDirection.down),
-          menuMaxHeight: widget.toolbarOptions.dropdownMenuMaxHeight ??
-              MediaQuery.of(context).size.height / 3,
-          style: widget.toolbarOptions.textStyle,
-          items: [
-            CustomDropdownMenuItem(
-              value: 'Courier New',
-              child: PointerInterceptor(
-                  child: Text('Courier New',
-                      style: TextStyle(fontFamily: 'Courier'))),
-            ),
-            CustomDropdownMenuItem(
-              value: 'Helvetica',
-              child: PointerInterceptor(
-                  child: Text('Helvetica',
-                      style: TextStyle(fontFamily: 'Helvetica'))),
-            ),
-            CustomDropdownMenuItem(
-              value: 'Times New Roman',
-              child: PointerInterceptor(
-                  child: Text('Times New Roman',
-                      style: TextStyle(fontFamily: 'Times'))),
-            ),
-          ],
-          value: _fontNameSelectedItem,
-          onChanged: (String? changed) async {
-            void updateSelectedItem(dynamic changed) async {
-              if (changed is String) {
-                setState(mounted, this.setState, () {
-                  _fontNameSelectedItem = changed;
-                });
+    return Material(
+      type: .transparency,
+      child: Container(
+        padding: const EdgeInsets.only(left: 8.0),
+        height: widget.toolbarOptions.toolbarItemHeight,
+        decoration: !widget.toolbarOptions.renderBorder
+            ? null
+            : widget.toolbarOptions.dropdownBoxDecoration ??
+                BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    border: Border.all(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.12))),
+        child: CustomDropdownButtonHideUnderline(
+          child: CustomDropdownButton<String>(
+            elevation: widget.toolbarOptions.dropdownElevation,
+            icon: widget.toolbarOptions.dropdownIcon,
+            iconEnabledColor: widget.toolbarOptions.dropdownIconColor,
+            iconSize: widget.toolbarOptions.dropdownIconSize,
+            itemHeight: widget.toolbarOptions.dropdownItemHeight,
+            focusColor: widget.toolbarOptions.dropdownFocusColor,
+            dropdownColor: widget.toolbarOptions.dropdownBackgroundColor,
+            menuDirection: widget.toolbarOptions.dropdownMenuDirection ??
+                (widget.toolbarOptions.toolbarPosition ==
+                        ToolbarPosition.belowEditor
+                    ? DropdownMenuDirection.up
+                    : DropdownMenuDirection.down),
+            menuMaxHeight: widget.toolbarOptions.dropdownMenuMaxHeight ??
+                MediaQuery.of(context).size.height / 3,
+            style: widget.toolbarOptions.textStyle,
+            items: [
+              CustomDropdownMenuItem(
+                value: 'Courier New',
+                child: PointerInterceptor(
+                    child: Text('Courier New',
+                        style: TextStyle(fontFamily: 'Courier'))),
+              ),
+              CustomDropdownMenuItem(
+                value: 'Helvetica',
+                child: PointerInterceptor(
+                    child: Text('Helvetica',
+                        style: TextStyle(fontFamily: 'Helvetica'))),
+              ),
+              CustomDropdownMenuItem(
+                value: 'Times New Roman',
+                child: PointerInterceptor(
+                    child: Text('Times New Roman',
+                        style: TextStyle(fontFamily: 'Times'))),
+              ),
+            ],
+            value: _fontNameSelectedItem,
+            onChanged: (String? changed) async {
+              void updateSelectedItem(dynamic changed) async {
+                if (changed is String) {
+                  setState(mounted, this.setState, () {
+                    _fontNameSelectedItem = changed;
+                  });
+                }
               }
-            }
 
-            if (changed != null) {
-              var proceed = await widget.toolbarOptions.onDropdownChanged?.call(
-                      DropdownType.fontName, changed, updateSelectedItem) ??
-                  true;
-              if (proceed) {
-                await widget.controller
-                    .execCommand('fontName', argument: changed);
-                updateSelectedItem(changed);
+              if (changed != null) {
+                var proceed = await widget.toolbarOptions.onDropdownChanged?.call(
+                        DropdownType.fontName, changed, updateSelectedItem) ??
+                    true;
+                if (proceed) {
+                  await widget.controller
+                      .execCommand('fontName', argument: changed);
+                  updateSelectedItem(changed);
+                }
               }
-            }
-          },
+            },
+          ),
         ),
       ),
     );
