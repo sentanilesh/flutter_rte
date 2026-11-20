@@ -85,112 +85,115 @@ extension ToolbarFontSettingsButtons on ToolbarWidgetState {
                           .onSurface
                           .withOpacity(0.12))),
       child: CustomDropdownButtonHideUnderline(
-        child: CustomDropdownButton<double>(
-          elevation: widget.toolbarOptions.dropdownElevation,
-          icon: widget.toolbarOptions.dropdownIcon,
-          iconEnabledColor: widget.toolbarOptions.dropdownIconColor,
-          iconSize: widget.toolbarOptions.dropdownIconSize,
-          itemHeight: widget.toolbarOptions.dropdownItemHeight,
-          focusColor: widget.toolbarOptions.dropdownFocusColor,
-          dropdownColor: widget.toolbarOptions.dropdownBackgroundColor,
-          menuDirection: widget.toolbarOptions.dropdownMenuDirection ??
-              (widget.toolbarOptions.toolbarPosition ==
-                      ToolbarPosition.belowEditor
-                  ? DropdownMenuDirection.up
-                  : DropdownMenuDirection.down),
-          menuMaxHeight: widget.toolbarOptions.dropdownMenuMaxHeight ??
-              MediaQuery.of(context).size.height / 3,
-          style: widget.toolbarOptions.textStyle,
-          items: [
-            CustomDropdownMenuItem(
-              value: 1,
-              child: PointerInterceptor(
-                  child: Text(
-                      "${_fontSizeUnitSelectedItem == "px" ? "11" : "8"} $_fontSizeUnitSelectedItem")),
-            ),
-            CustomDropdownMenuItem(
-              value: 2,
-              child: PointerInterceptor(
-                  child: Text(
-                      "${_fontSizeUnitSelectedItem == "px" ? "13" : "10"} $_fontSizeUnitSelectedItem")),
-            ),
-            CustomDropdownMenuItem(
-              value: 3,
-              child: PointerInterceptor(
-                  child: Text(
-                      "${_fontSizeUnitSelectedItem == "px" ? "16" : "12"} $_fontSizeUnitSelectedItem")),
-            ),
-            CustomDropdownMenuItem(
-              value: 4,
-              child: PointerInterceptor(
-                  child: Text(
-                      "${_fontSizeUnitSelectedItem == "px" ? "19" : "14"} $_fontSizeUnitSelectedItem")),
-            ),
-            CustomDropdownMenuItem(
-              value: 5,
-              child: PointerInterceptor(
-                  child: Text(
-                      "${_fontSizeUnitSelectedItem == "px" ? "24" : "18"} $_fontSizeUnitSelectedItem")),
-            ),
-            CustomDropdownMenuItem(
-              value: 6,
-              child: PointerInterceptor(
-                  child: Text(
-                      "${_fontSizeUnitSelectedItem == "px" ? "32" : "24"} $_fontSizeUnitSelectedItem")),
-            ),
-            CustomDropdownMenuItem(
-              value: 7,
-              child: PointerInterceptor(
-                  child: Text(
-                      "${_fontSizeUnitSelectedItem == "px" ? "48" : "36"} $_fontSizeUnitSelectedItem")),
-            ),
-          ],
-          value: _fontSizeSelectedItem,
-          onChanged: (double? changed) async {
-            void updateSelectedItem(dynamic changed) {
-              if (changed is double) {
-                setState(mounted, this.setState, () {
-                  _fontSizeSelectedItem = changed;
-                });
-              }
-            }
-
-            if (changed != null) {
-              var intChanged = changed.toInt();
-              var proceed = await widget.toolbarOptions.onDropdownChanged?.call(
-                      DropdownType.fontSize, changed, updateSelectedItem) ??
-                  true;
-              if (proceed) {
-                switch (intChanged) {
-                  case 1:
-                    _actualFontSizeSelectedItem = 11;
-                    break;
-                  case 2:
-                    _actualFontSizeSelectedItem = 13;
-                    break;
-                  case 3:
-                    _actualFontSizeSelectedItem = 16;
-                    break;
-                  case 4:
-                    _actualFontSizeSelectedItem = 19;
-                    break;
-                  case 5:
-                    _actualFontSizeSelectedItem = 24;
-                    break;
-                  case 6:
-                    _actualFontSizeSelectedItem = 32;
-                    break;
-                  case 7:
-                    _actualFontSizeSelectedItem = 48;
-                    break;
+        child: Material(
+          type: MaterialType.transparency,
+          child: CustomDropdownButton<double>(
+            elevation: widget.toolbarOptions.dropdownElevation,
+            icon: widget.toolbarOptions.dropdownIcon,
+            iconEnabledColor: widget.toolbarOptions.dropdownIconColor,
+            iconSize: widget.toolbarOptions.dropdownIconSize,
+            itemHeight: widget.toolbarOptions.dropdownItemHeight,
+            focusColor: widget.toolbarOptions.dropdownFocusColor,
+            dropdownColor: widget.toolbarOptions.dropdownBackgroundColor,
+            menuDirection: widget.toolbarOptions.dropdownMenuDirection ??
+                (widget.toolbarOptions.toolbarPosition ==
+                        ToolbarPosition.belowEditor
+                    ? DropdownMenuDirection.up
+                    : DropdownMenuDirection.down),
+            menuMaxHeight: widget.toolbarOptions.dropdownMenuMaxHeight ??
+                MediaQuery.of(context).size.height / 3,
+            style: widget.toolbarOptions.textStyle,
+            items: [
+              CustomDropdownMenuItem(
+                value: 1,
+                child: PointerInterceptor(
+                    child: Text(
+                        "${_fontSizeUnitSelectedItem == "px" ? "11" : "8"} $_fontSizeUnitSelectedItem")),
+              ),
+              CustomDropdownMenuItem(
+                value: 2,
+                child: PointerInterceptor(
+                    child: Text(
+                        "${_fontSizeUnitSelectedItem == "px" ? "13" : "10"} $_fontSizeUnitSelectedItem")),
+              ),
+              CustomDropdownMenuItem(
+                value: 3,
+                child: PointerInterceptor(
+                    child: Text(
+                        "${_fontSizeUnitSelectedItem == "px" ? "16" : "12"} $_fontSizeUnitSelectedItem")),
+              ),
+              CustomDropdownMenuItem(
+                value: 4,
+                child: PointerInterceptor(
+                    child: Text(
+                        "${_fontSizeUnitSelectedItem == "px" ? "19" : "14"} $_fontSizeUnitSelectedItem")),
+              ),
+              CustomDropdownMenuItem(
+                value: 5,
+                child: PointerInterceptor(
+                    child: Text(
+                        "${_fontSizeUnitSelectedItem == "px" ? "24" : "18"} $_fontSizeUnitSelectedItem")),
+              ),
+              CustomDropdownMenuItem(
+                value: 6,
+                child: PointerInterceptor(
+                    child: Text(
+                        "${_fontSizeUnitSelectedItem == "px" ? "32" : "24"} $_fontSizeUnitSelectedItem")),
+              ),
+              CustomDropdownMenuItem(
+                value: 7,
+                child: PointerInterceptor(
+                    child: Text(
+                        "${_fontSizeUnitSelectedItem == "px" ? "48" : "36"} $_fontSizeUnitSelectedItem")),
+              ),
+            ],
+            value: _fontSizeSelectedItem,
+            onChanged: (double? changed) async {
+              void updateSelectedItem(dynamic changed) {
+                if (changed is double) {
+                  setState(mounted, this.setState, () {
+                    _fontSizeSelectedItem = changed;
+                  });
                 }
-                var size =
-                    '$_actualFontSizeSelectedItem$_fontSizeUnitSelectedItem';
-                await widget.controller.execCommand('fontSize', argument: size);
-                updateSelectedItem(changed);
               }
-            }
-          },
+
+              if (changed != null) {
+                var intChanged = changed.toInt();
+                var proceed = await widget.toolbarOptions.onDropdownChanged?.call(
+                        DropdownType.fontSize, changed, updateSelectedItem) ??
+                    true;
+                if (proceed) {
+                  switch (intChanged) {
+                    case 1:
+                      _actualFontSizeSelectedItem = 11;
+                      break;
+                    case 2:
+                      _actualFontSizeSelectedItem = 13;
+                      break;
+                    case 3:
+                      _actualFontSizeSelectedItem = 16;
+                      break;
+                    case 4:
+                      _actualFontSizeSelectedItem = 19;
+                      break;
+                    case 5:
+                      _actualFontSizeSelectedItem = 24;
+                      break;
+                    case 6:
+                      _actualFontSizeSelectedItem = 32;
+                      break;
+                    case 7:
+                      _actualFontSizeSelectedItem = 48;
+                      break;
+                  }
+                  var size =
+                      '$_actualFontSizeSelectedItem$_fontSizeUnitSelectedItem';
+                  await widget.controller.execCommand('fontSize', argument: size);
+                  updateSelectedItem(changed);
+                }
+              }
+            },
+          ),
         ),
       ),
     );
