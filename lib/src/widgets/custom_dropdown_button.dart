@@ -929,7 +929,6 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>>
 
   @override
   Widget build(BuildContext context) {
-    assert(debugCheckHasMaterial(context));
     assert(debugCheckHasMaterialLocalizations(context));
     final newOrientation = _getOrientation(context);
     _lastOrientation ??= newOrientation;

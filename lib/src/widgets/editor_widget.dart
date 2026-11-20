@@ -191,11 +191,14 @@ class _HtmlEditorState extends State<HtmlEditor> with TickerProviderStateMixin {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        return Container(
-          padding: editorOptions.padding,
-          decoration: editorOptions.decoration,
-          height: _height,
-          child: _editorWidget(child!),
+        return Material(
+          type: MaterialType.transparency,
+          child: Container(
+            padding: editorOptions.padding,
+            decoration: editorOptions.decoration,
+            height: _height,
+            child: _editorWidget(child!),
+          ),
         );
       },
       child: _controller.view(_controller),
