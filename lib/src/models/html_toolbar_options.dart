@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_rte/src/models/toolbar.dart';
 import 'package:flutter_rte/src/widgets/custom_dropdown_button.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'custom_toolbar_buttons.dart';
 

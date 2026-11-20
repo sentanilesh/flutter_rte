@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Custom toolbar buttons for the HtmlEditor are grouped into CustomButtonGroup
 /// objects. Each group is placed in the toolbar at the index specified by the

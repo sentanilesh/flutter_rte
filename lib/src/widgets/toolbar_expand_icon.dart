@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Delegate for the icon that controls the expansion status of the toolbar
 class ExpandIconDelegate extends SliverPersistentHeaderDelegate {

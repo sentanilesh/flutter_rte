@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Class that helps pass editor settings to the [onSettingsChange] callback
 class EditorSettings {
