@@ -9,24 +9,45 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  final c = HtmlEditorController(
-      toolbarOptions: HtmlToolbarOptions(
-          backgroundColor: Colors.blueGrey[100],
-          initiallyExpanded: false,
-          toolbarType: ToolbarType.nativeExpandable),
+  late final HtmlEditorController textEdtController;
+
+  @override
+  void initState() {
+    super.initState();
+    textEdtController = HtmlEditorController(
       editorOptions: HtmlEditorOptions(
-        backgroundDecoration: BoxDecoration(color: Colors.green[100]),
-      ));
+        hint: "Your text here...",
+        initialText: "<p>Example with custom toolbar options</p>",
+      ),
+    );
+    textEdtController.toolbarOptions = HtmlToolbarOptions(
+      renderSeparatorWidget: true,
+      defaultToolbarButtons: const [
+        FontButtons(
+            strikethrough: false, superscript: false, subscript: false),
+        ColorButtons(),
+        ParagraphButtons(
+            textDirection: false, lineHeight: false, caseConverter: false),
+        FontSettingButtons(fontSizeUnit: false),
+        ListButtons(listStyles: false),
+        InsertButtons(),
+        OtherButtons(copy: false, paste: false),
+      ],
+      toolbarPosition: ToolbarPosition.aboveEditor,
+      toolbarType: ToolbarType.nativeExpandable,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Test')),
       body: SafeArea(
-          child: HtmlEditor(
-        expandFullHeight: true,
-        controller: c,
-      )),
+        child: HtmlEditor(
+          expandFullHeight: true,
+          controller: textEdtController,
+        ),
+      ),
     );
   }
 }
