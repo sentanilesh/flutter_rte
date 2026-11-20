@@ -22,6 +22,7 @@ part 'toolbar_extensions/paragraph_buttons.dart';
 part 'toolbar_extensions/style_buttons.dart';
 part 'toolbar_extensions/undo_redo_buttons.dart';
 part 'toolbar_extensions/copy_paste_buttons.dart';
+part 'toolbar_extensions/menu_buttons.dart';
 
 /// Toolbar widget class
 class ToolbarWidget extends StatefulWidget {
@@ -71,6 +72,8 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
   List<bool> _alignSelected = List<bool>.filled(4, false);
 
   List<bool> _textDirectionSelected = List<bool>.filled(2, false);
+
+  final List<bool> _menuSelected = List<bool>.filled(1, false);
 
   /// Sets the selected item for the font style dropdown
   String _fontSelectedItem = 'p';
@@ -657,6 +660,9 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
         if (t.copy || t.paste) {
           toolbarChildren.add(_copyPaste(t));
         }
+      }
+      if (t is ContextMenuButtons && t.contextMenu) {
+        toolbarChildren.add(_menuButtons(t));
       }
     }
 

@@ -229,3 +229,19 @@ class OtherButtons extends Toolbar {
     return icons;
   }
 }
+
+/// Context menu group
+class ContextMenuButtons extends Toolbar {
+  final bool contextMenu;
+
+  const ContextMenuButtons({
+    this.contextMenu = true,
+  });
+
+  List<Icon> getIcons() {
+    var icons = <Icon>[];
+    if (contextMenu) icons.add(const Icon(Icons.menu));
+    return icons;
+  }
+}
+

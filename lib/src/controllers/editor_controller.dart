@@ -337,6 +337,12 @@ class HtmlEditorController with ChangeNotifier, PlatformSpecificMixin {
   /// Redoes the last action
   void redo() => evaluateJavascript(data: {'type': 'toIframe: redo'});
 
+  /// Toggles the context menu
+  Future<void> toggleContextMenu(bool isHidden) async {
+    await evaluateJavascript(
+        data: {'type': 'toIframe: toggleContextMenu', 'argument': isHidden});
+  }
+
   /// Sets the text of the editor.
   Future<void> setText(String text) async {
     _buffer = text;

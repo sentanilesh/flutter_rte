@@ -199,7 +199,7 @@ extension ToolbarFontSettingsButtons on ToolbarWidgetState {
   ///
   Widget _fontName(FontSettingButtons t) {
     return Material(
-      type: .transparency,
+      type: MaterialType.transparency,
       child: Container(
         padding: const EdgeInsets.only(left: 8.0),
         height: widget.toolbarOptions.toolbarItemHeight,
